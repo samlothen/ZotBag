@@ -9,6 +9,11 @@ declare namespace _ZoteroTypes {
     PluginPrefsMap: {
       "enable": boolean;
       "input": string;
+      "wallabag.serverUrl": string;
+      "wallabag.clientId": string;
+      "wallabag.clientSecret": string;
+      "wallabag.username": string;
+      "wallabag.password": string;
     };
   }
 }

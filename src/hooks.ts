@@ -8,6 +8,7 @@ import {
 import { getString, initLocale } from "./utils/locale";
 import { registerPrefsScripts } from "./modules/preferenceScript";
 import { createZToolkit } from "./utils/ztoolkit";
+import { WallabagAPI } from "./modules/wallabagApi";
 
 async function onStartup() {
   await Promise.all([
@@ -138,8 +139,65 @@ async function onPrefsEvent(type: string, data: { [key: string]: any }) {
     case "load":
       registerPrefsScripts(data.window);
       break;
+    case "wallabag-test":
+      testWallabagConnection(data.window);
+      break;
     default:
       return;
+  }
+}
+
+/**
+ * Test the connection to the Wallabag server
+ * @param window The preferences window
+ */
+async function testWallabagConnection(window: Window) {
+  try {
+    // Show a loading message
+    const progressWindow = new ztoolkit.ProgressWindow("Wallabag Connection Test", {
+      closeOnClick: false,
+      closeTime: -1,
+    })
+      .createLine({
+        text: "Testing connection to Wallabag server...",
+        type: "default",
+        progress: 50,
+      })
+      .show();
+
+    // Test the connection
+    const wallabagApi = new WallabagAPI();
+    const result = await wallabagApi.testConnection();
+
+    // Update the progress window with the result
+    if (result.success) {
+      progressWindow.changeLine({
+        text: result.message,
+        type: "success",
+        progress: 100,
+      });
+    } else {
+      progressWindow.changeLine({
+        text: result.message,
+        type: "error",
+        progress: 100,
+      });
+    }
+
+    // Close the progress window after 5 seconds
+    progressWindow.startCloseTimer(5000);
+  } catch (error: any) {
+    Zotero.debug(`ZotBag: Error in test connection handler: ${error.message}`);
+    new ztoolkit.ProgressWindow("Wallabag Connection Test", {
+      closeOnClick: true,
+      closeTime: 5000,
+    })
+      .createLine({
+        text: `Error: ${error.message}`,
+        type: "error",
+        progress: 100,
+      })
+      .show();
   }
 }
 

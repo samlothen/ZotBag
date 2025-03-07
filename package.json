@@ -1,20 +1,20 @@
 {
   "name": "zotero-plugin-template",
   "type": "module",
-  "version": "3.0.4",
-  "description": "Zotero Plugin Template",
+  "version": "0.0.0",
+  "description": "Import articles from Wallabag into Zotero",
   "config": {
-    "addonName": "Zotero Plugin Template",
-    "addonID": "addontemplate@euclpts.com",
-    "addonRef": "addontemplate",
-    "addonInstance": "AddonTemplate",
-    "prefsPrefix": "extensions.zotero.addontemplate"
+    "addonName": "ZotBag",
+    "addonID": "zotbag@nodomain.local",
+    "addonRef": "zotbag",
+    "addonInstance": "ZotBag",
+    "prefsPrefix": "extensions.zotero.zotbag"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/windingwind/zotero-plugin-template.git"
   },
-  "author": "windingwind",
+  "author": "Sam Löthén",
   "bugs": {
     "url": "https://github.com/windingwind/zotero-plugin-template/issues"
   },
