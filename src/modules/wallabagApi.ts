@@ -143,6 +143,46 @@ export class WallabagAPI {
     }
 
     /**
+     * Download an entry as PDF from the Wallabag server
+     * @param entryId The ID of the entry to download
+     * @returns The PDF data as an ArrayBuffer
+     */
+    async downloadEntryAsPdf(entryId: number): Promise<ArrayBuffer> {
+        try {
+            Zotero.debug(`ZotBag: Downloading PDF for entry with ID ${entryId}`);
+
+            // Validate that all required fields are filled
+            if (!this.serverUrl || !this.clientId || !this.clientSecret || !this.username || !this.password) {
+                Zotero.debug("ZotBag: Missing required credentials for Wallabag connection");
+                throw new Error("Please fill in all Wallabag credentials in the settings");
+            }
+
+            // Get access token
+            const accessToken = await this.getAccessToken();
+
+            // Fetch the PDF
+            const pdfUrl = `${this.serverUrl}/api/entries/${entryId}/export.pdf`;
+            const response = await fetch(pdfUrl, {
+                headers: {
+                    "Authorization": `Bearer ${accessToken}`
+                }
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                Zotero.debug(`ZotBag: Failed to download PDF. Status: ${response.status}, Response: ${errorText}`);
+                throw new Error(`Failed to download PDF: ${response.status} ${response.statusText}`);
+            }
+
+            // Return the PDF data as ArrayBuffer
+            return await response.arrayBuffer();
+        } catch (error: any) {
+            Zotero.debug(`ZotBag: Error downloading PDF: ${error.message}`);
+            throw error;
+        }
+    }
+
+    /**
      * Test the connection to the Wallabag server
      */
     async testConnection(): Promise<{ success: boolean; message: string; info?: any }> {

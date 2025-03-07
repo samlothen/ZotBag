@@ -1,12 +1,75 @@
-import { WallabagEntry } from "./wallabagApi";
+import { WallabagAPI, WallabagEntry } from "./wallabagApi";
 import { getPref } from "../utils/prefs";
+
+/**
+ * Save a PDF as an attachment to a Zotero item
+ * @param item The Zotero item to attach the PDF to
+ * @param pdfData The PDF data as an ArrayBuffer
+ * @param filename The filename for the PDF
+ * @returns The created attachment item
+ */
+async function savePdfAttachment(
+    item: Zotero.Item,
+    pdfData: ArrayBuffer,
+    filename: string
+): Promise<Zotero.Item> {
+    try {
+        Zotero.debug(`ZotBag: Saving PDF attachment for item: ${item.getField('title')}`);
+
+        // Create a temporary file
+        const tmpFile = Zotero.getTempDirectory();
+        tmpFile.append(filename);
+        if (tmpFile.exists()) {
+            tmpFile.remove(false);
+        }
+
+        // Write the PDF data to the temporary file using Mozilla Components API
+        // Use type assertions to avoid TypeScript errors with Mozilla-specific APIs
+        const fileOutputStream = (Components.classes as any)["@mozilla.org/network/file-output-stream;1"]
+            .createInstance(Components.interfaces.nsIFileOutputStream);
+        fileOutputStream.init(tmpFile, 0x02 | 0x08 | 0x20, 0o666, 0);
+
+        // Convert ArrayBuffer to Uint8Array
+        const uint8Array = new Uint8Array(pdfData);
+
+        // Write the data
+        const binaryOutputStream = (Components.classes as any)["@mozilla.org/binaryoutputstream;1"]
+            .createInstance(Components.interfaces.nsIBinaryOutputStream);
+        binaryOutputStream.setOutputStream(fileOutputStream);
+        binaryOutputStream.writeByteArray(uint8Array, uint8Array.length);
+        binaryOutputStream.close();
+        fileOutputStream.close();
+
+        // Create the attachment
+        const attachment = await Zotero.Attachments.importFromFile({
+            file: tmpFile,
+            parentItemID: item.id,
+            title: filename
+        });
+
+        // Remove the temporary file
+        if (tmpFile.exists()) {
+            tmpFile.remove(false);
+        }
+
+        Zotero.debug(`ZotBag: Successfully saved PDF attachment`);
+        return attachment;
+    } catch (error: any) {
+        Zotero.debug(`ZotBag: Error saving PDF attachment: ${error.message}`);
+        throw error;
+    }
+}
 
 /**
  * Create a Zotero item from a Wallabag entry
  * @param entry The Wallabag entry to convert to a Zotero item
+ * @param downloadPdf Whether to download and attach the PDF
  * @returns The created Zotero item
  */
-export async function createZoteroItemFromWallabagEntry(entry: WallabagEntry): Promise<Zotero.Item> {
+export async function createZoteroItemFromWallabagEntry(
+    entry: WallabagEntry,
+    downloadPdf: boolean = false
+): Promise<Zotero.Item> {
     try {
         Zotero.debug(`ZotBag: Creating Zotero item for Wallabag entry: ${entry.title}`);
 
@@ -69,6 +132,23 @@ export async function createZoteroItemFromWallabagEntry(entry: WallabagEntry): P
 
         // Save the item
         await item.saveTx();
+
+        // If downloadPdf is true, fetch and attach the PDF
+        if (downloadPdf) {
+            try {
+                const wallabagApi = new WallabagAPI();
+                const pdfData = await wallabagApi.downloadEntryAsPdf(entry.id);
+
+                // Create a filename based on the entry title
+                const safeTitle = entry.title.replace(/[^a-z0-9]/gi, '_').substring(0, 50);
+                const filename = `${safeTitle}_wallabag_${entry.id}.pdf`;
+
+                await savePdfAttachment(item, pdfData, filename);
+            } catch (error: any) {
+                Zotero.debug(`ZotBag: Error attaching PDF: ${error.message}`);
+                // Continue without the PDF if there's an error
+            }
+        }
 
         Zotero.debug(`ZotBag: Successfully created Zotero item for Wallabag entry: ${entry.title}`);
         return item;

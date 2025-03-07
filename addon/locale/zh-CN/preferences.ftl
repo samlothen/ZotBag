@@ -16,5 +16,7 @@ pref-wallabag-test = 测试连接
 pref-wallabag-import-title = 从 Wallabag 导入
 pref-wallabag-entryId = 条目 ID:
 pref-wallabag-import = 导入条目
+pref-wallabag-downloadPdf = 
+    .label = 导入时下载并附加 PDF
 
 pref-help = { $name } Build { $version } { $time }

@@ -222,13 +222,20 @@ async function importWallabagEntry(window: Window) {
       throw new Error("Please enter a valid entry ID");
     }
 
+    // Get the PDF download checkbox state
+    const downloadPdfCheckbox = window.document.getElementById(
+      `zotero-prefpane-${addon.data.config.addonRef}-wallabag-downloadPdf`
+    ) as HTMLInputElement;
+
+    const downloadPdf = downloadPdfCheckbox?.checked || false;
+
     // Show a loading message
     const progressWindow = new ztoolkit.ProgressWindow("Wallabag Import", {
       closeOnClick: false,
       closeTime: -1,
     })
       .createLine({
-        text: `Importing entry ${entryId} from Wallabag...`,
+        text: `Importing entry ${entryId} from Wallabag...${downloadPdf ? " (with PDF)" : ""}`,
         type: "default",
         progress: 50,
       })
@@ -239,11 +246,11 @@ async function importWallabagEntry(window: Window) {
     const entry = await wallabagApi.getEntry(entryId);
 
     // Create a Zotero item from the entry
-    const item = await createZoteroItemFromWallabagEntry(entry);
+    const item = await createZoteroItemFromWallabagEntry(entry, downloadPdf);
 
     // Update the progress window with success
     progressWindow.changeLine({
-      text: `Successfully imported "${entry.title}"`,
+      text: `Successfully imported "${entry.title}"${downloadPdf ? " with PDF" : ""}`,
       type: "success",
       progress: 100,
     });

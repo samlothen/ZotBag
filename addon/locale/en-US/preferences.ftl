@@ -16,5 +16,7 @@ pref-wallabag-test = Test Connection
 pref-wallabag-import-title = Import from Wallabag
 pref-wallabag-entryId = Entry ID:
 pref-wallabag-import = Import Entry
+pref-wallabag-downloadPdf = 
+    .label = Download and attach PDF when importing
 
 pref-help = { $name } Build { $version } { $time }
