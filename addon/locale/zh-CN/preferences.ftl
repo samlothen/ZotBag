@@ -12,4 +12,9 @@ pref-wallabag-username = 用户名:
 pref-wallabag-password = 密码:
 pref-wallabag-test = 测试连接
 
+# Wallabag Import
+pref-wallabag-import-title = 从 Wallabag 导入
+pref-wallabag-entryId = 条目 ID:
+pref-wallabag-import = 导入条目
+
 pref-help = { $name } Build { $version } { $time }

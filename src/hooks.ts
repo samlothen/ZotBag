@@ -9,6 +9,7 @@ import { getString, initLocale } from "./utils/locale";
 import { registerPrefsScripts } from "./modules/preferenceScript";
 import { createZToolkit } from "./utils/ztoolkit";
 import { WallabagAPI } from "./modules/wallabagApi";
+import { createZoteroItemFromWallabagEntry } from "./modules/zoteroIntegration";
 
 async function onStartup() {
   await Promise.all([
@@ -142,6 +143,9 @@ async function onPrefsEvent(type: string, data: { [key: string]: any }) {
     case "wallabag-test":
       testWallabagConnection(data.window);
       break;
+    case "wallabag-import":
+      importWallabagEntry(data.window);
+      break;
     default:
       return;
   }
@@ -189,6 +193,69 @@ async function testWallabagConnection(window: Window) {
   } catch (error: any) {
     Zotero.debug(`ZotBag: Error in test connection handler: ${error.message}`);
     new ztoolkit.ProgressWindow("Wallabag Connection Test", {
+      closeOnClick: true,
+      closeTime: 5000,
+    })
+      .createLine({
+        text: `Error: ${error.message}`,
+        type: "error",
+        progress: 100,
+      })
+      .show();
+  }
+}
+
+/**
+ * Import an entry from Wallabag and create a Zotero item
+ * @param window The preferences window
+ */
+async function importWallabagEntry(window: Window) {
+  try {
+    // Get the entry ID from the input field
+    const entryIdInput = window.document.getElementById(
+      `zotero-prefpane-${addon.data.config.addonRef}-wallabag-entryId`
+    ) as HTMLInputElement;
+
+    const entryId = parseInt(entryIdInput.value.trim());
+
+    if (isNaN(entryId) || entryId <= 0) {
+      throw new Error("Please enter a valid entry ID");
+    }
+
+    // Show a loading message
+    const progressWindow = new ztoolkit.ProgressWindow("Wallabag Import", {
+      closeOnClick: false,
+      closeTime: -1,
+    })
+      .createLine({
+        text: `Importing entry ${entryId} from Wallabag...`,
+        type: "default",
+        progress: 50,
+      })
+      .show();
+
+    // Fetch the entry
+    const wallabagApi = new WallabagAPI();
+    const entry = await wallabagApi.getEntry(entryId);
+
+    // Create a Zotero item from the entry
+    const item = await createZoteroItemFromWallabagEntry(entry);
+
+    // Update the progress window with success
+    progressWindow.changeLine({
+      text: `Successfully imported "${entry.title}"`,
+      type: "success",
+      progress: 100,
+    });
+
+    // Clear the input field
+    entryIdInput.value = "";
+
+    // Close the progress window after 5 seconds
+    progressWindow.startCloseTimer(5000);
+  } catch (error: any) {
+    Zotero.debug(`ZotBag: Error in import entry handler: ${error.message}`);
+    new ztoolkit.ProgressWindow("Wallabag Import", {
       closeOnClick: true,
       closeTime: 5000,
     })

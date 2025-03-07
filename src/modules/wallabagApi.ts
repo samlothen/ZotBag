@@ -102,6 +102,47 @@ export class WallabagAPI {
     }
 
     /**
+     * Get a single entry from the Wallabag server by ID
+     * @param entryId The ID of the entry to fetch
+     */
+    async getEntry(entryId: number): Promise<WallabagEntry> {
+        try {
+            Zotero.debug(`ZotBag: Fetching entry with ID ${entryId}`);
+
+            // Validate that all required fields are filled
+            if (!this.serverUrl || !this.clientId || !this.clientSecret || !this.username || !this.password) {
+                Zotero.debug("ZotBag: Missing required credentials for Wallabag connection");
+                throw new Error("Please fill in all Wallabag credentials in the settings");
+            }
+
+            // Get access token
+            const accessToken = await this.getAccessToken();
+
+            // Fetch the entry
+            const entryUrl = `${this.serverUrl}/api/entries/${entryId}`;
+            const response = await fetch(entryUrl, {
+                headers: {
+                    "Authorization": `Bearer ${accessToken}`
+                }
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                Zotero.debug(`ZotBag: Failed to fetch entry. Status: ${response.status}, Response: ${errorText}`);
+                throw new Error(`Failed to fetch entry: ${response.status} ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            const entry = data as unknown as WallabagEntry;
+            Zotero.debug(`ZotBag: Successfully fetched entry: ${entry.title}`);
+            return entry;
+        } catch (error: any) {
+            Zotero.debug(`ZotBag: Error fetching entry: ${error.message}`);
+            throw error;
+        }
+    }
+
+    /**
      * Test the connection to the Wallabag server
      */
     async testConnection(): Promise<{ success: boolean; message: string; info?: any }> {
@@ -134,3 +175,24 @@ export class WallabagAPI {
                 return {
                     success: false,
                     message: `Failed to connect to Wallabag server: ${infoResponse.status} ${infoResponse.statusText}`
+                };
+            }
+
+            const info = await infoResponse.json();
+            const serverInfo = info as unknown as { appname: string; version: string; allowed_registration: boolean };
+            Zotero.debug(`ZotBag: Successfully connected to Wallabag server. Version: ${serverInfo.version}`);
+
+            return {
+                success: true,
+                message: `Successfully connected to Wallabag server (${serverInfo.appname} v${serverInfo.version})`,
+                info: serverInfo
+            };
+        } catch (error: any) {
+            Zotero.debug(`ZotBag: Error testing connection: ${error.message}`);
+            return {
+                success: false,
+                message: `Error connecting to Wallabag: ${error.message}`
+            };
+        }
+    }
+}
