@@ -11,7 +11,7 @@
 
 user_pref("app.update.enabled", false);
 user_pref("app.update.lastUpdateTime.addon-background-update-timer", 1741374970);
-user_pref("app.update.lastUpdateTime.background-update-timer", 1741374970);
+user_pref("app.update.lastUpdateTime.background-update-timer", 1741441203);
 user_pref("app.update.lastUpdateTime.xpi-signature-verification", 1741374970);
 user_pref("browser.dom.window.dump.enabled", true);
 user_pref("browser.reader.detectedFirstArticle", true);
@@ -36,7 +36,8 @@ user_pref("devtools.inspector.selectedSidebar", "ruleview");
 user_pref("devtools.inspector.showAllAnonymousContent", true);
 user_pref("devtools.inspector.showUserAgentStyles", true);
 user_pref("devtools.netmonitor.columnsData", "[{\"name\":\"status\",\"minWidth\":30,\"width\":5.72},{\"name\":\"method\",\"minWidth\":30,\"width\":5.72},{\"name\":\"domain\",\"minWidth\":30,\"width\":11.43},{\"name\":\"file\",\"minWidth\":30,\"width\":28.57},{\"name\":\"url\",\"minWidth\":30,\"width\":25},{\"name\":\"initiator\",\"minWidth\":30,\"width\":11.43},{\"name\":\"type\",\"minWidth\":30,\"width\":5.72},{\"name\":\"transferred\",\"minWidth\":30,\"width\":11.43},{\"name\":\"contentSize\",\"minWidth\":30,\"width\":5.72},{\"name\":\"waterfall\",\"minWidth\":150,\"width\":14.29}]");
-user_pref("devtools.toolbox.selectedTool", "netmonitor");
+user_pref("devtools.toolbox.selectedTool", "jsdebugger");
+user_pref("devtools.toolbox.splitconsoleEnabled", true);
 user_pref("devtools.toolsidebar-height.inspector", 350);
 user_pref("devtools.toolsidebar-width.inspector", 350);
 user_pref("devtools.toolsidebar-width.inspector.splitsidebar", 350);
@@ -61,5 +62,4 @@ user_pref("storage.vacuum.last.index", 0);
 user_pref("storage.vacuum.last.places.sqlite", 1741376309);
 user_pref("toolkit.startup.last_success", 1741374940);
 user_pref("toolkit.startup.max_resumed_crashes", -1);
-user_pref("toolkit.startup.recent_crashes", 1);
 user_pref("urlclassifier.updateinterval", 172800);

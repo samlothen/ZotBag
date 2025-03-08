@@ -124,14 +124,27 @@ export async function createZoteroItemFromWallabagEntry(
             item.addTag("Starred");
         }
 
-        // Add to Wallabag collection
-        const collection = await getOrCreateWallabagCollection();
-        if (collection) {
-            collection.addItem(item.id);
-        }
-
-        // Save the item
+        // Save the item first to ensure it has an ID
         await item.saveTx();
+
+        // Add to Wallabag collection
+        try {
+            // Get the Wallabag collection
+            const collection = await getOrCreateWallabagCollection();
+            if (collection) {
+                Zotero.debug(`ZotBag: Adding item ${item.id} to Wallabag collection ${collection.id}`);
+
+                // Add the item to the collection using the recommended approach
+                item.addToCollection(collection.id);
+                await item.saveTx();
+                Zotero.debug(`ZotBag: Added item to collection using item.addToCollection() and saved item`);
+            } else {
+                Zotero.debug(`ZotBag: No Wallabag collection available to add item to`);
+            }
+        } catch (error: any) {
+            Zotero.debug(`ZotBag: Error adding item to Wallabag collection: ${error.message}`);
+            // Continue even if adding to collection fails
+        }
 
         // If downloadPdf is true, fetch and attach the PDF
         if (downloadPdf) {
@@ -171,15 +184,18 @@ async function getOrCreateWallabagCollection(): Promise<Zotero.Collection | null
         const collections = Zotero.Collections.getByLibrary(libraryID);
         for (const collection of collections) {
             if (collection.name === "Wallabag") {
+                Zotero.debug(`ZotBag: Found existing Wallabag collection with ID ${collection.id}`);
                 return collection;
             }
         }
 
         // Create a new Wallabag collection
+        Zotero.debug(`ZotBag: Creating new Wallabag collection`);
         const collection = new Zotero.Collection();
         collection.name = "Wallabag";
-        collection.save();
+        await collection.saveTx();
 
+        Zotero.debug(`ZotBag: Created new Wallabag collection with ID ${collection.id}`);
         return collection;
     } catch (error: any) {
         Zotero.debug(`ZotBag: Error getting or creating Wallabag collection: ${error.message}`);
