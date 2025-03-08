@@ -12,6 +12,15 @@ pref-wallabag-username = Username:
 pref-wallabag-password = Password:
 pref-wallabag-test = Test Connection
 
+# Wallabag Sync Settings
+pref-wallabag-sync-title = Sync Settings
+pref-wallabag-sync-enabled =
+    .label = Enable automatic sync with Wallabag
+pref-wallabag-sync-interval = Sync Interval (minutes):
+pref-wallabag-sync-downloadPdf =
+    .label = Download and attach PDF when syncing
+pref-wallabag-sync-now = Sync Now
+
 # Wallabag Import
 pref-wallabag-import-title = Import from Wallabag
 pref-wallabag-entryId = Entry ID:

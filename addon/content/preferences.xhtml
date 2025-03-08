@@ -61,6 +61,42 @@
     </hbox>
   </groupbox>
 
+  <!-- Wallabag Sync Settings -->
+  <groupbox>
+    <label>
+      <html:h3 data-l10n-id="pref-wallabag-sync-title">Sync Settings</html:h3>
+    </label>
+
+    <!-- Enable Sync -->
+    <hbox align="center">
+      <checkbox id="zotero-prefpane-__addonRef__-wallabag-sync-enabled" preference="wallabag.sync.enabled"
+        data-l10n-id="pref-wallabag-sync-enabled" />
+    </hbox>
+
+    <!-- Sync Interval -->
+    <hbox align="center">
+      <html:label for="zotero-prefpane-__addonRef__-wallabag-sync-interval" data-l10n-id="pref-wallabag-sync-interval"
+        width="100">Sync Interval (minutes):</html:label>
+      <html:input type="number" id="zotero-prefpane-__addonRef__-wallabag-sync-interval"
+        preference="wallabag.sync.interval" style="width: 100px;" min="5" max="1440"></html:input>
+    </hbox>
+
+    <!-- Download PDF option -->
+    <hbox align="center">
+      <checkbox id="zotero-prefpane-__addonRef__-wallabag-sync-downloadPdf" preference="wallabag.sync.downloadPdf"
+        data-l10n-id="pref-wallabag-sync-downloadPdf" />
+    </hbox>
+
+    <!-- Manual Sync Button -->
+    <hbox>
+      <spacer flex="1" />
+      <button id="zotero-prefpane-__addonRef__-wallabag-sync-now" data-l10n-id="pref-wallabag-sync-now"
+        oncommand="Zotero.__addonInstance__.hooks.onPrefsEvent('wallabag-sync-now', { window });">
+        Sync Now
+      </button>
+    </hbox>
+  </groupbox>
+
   <!-- Wallabag Import Section -->
   <groupbox>
     <label>

@@ -10,6 +10,10 @@ import { registerPrefsScripts } from "./modules/preferenceScript";
 import { createZToolkit } from "./utils/ztoolkit";
 import { WallabagAPI } from "./modules/wallabagApi";
 import { createZoteroItemFromWallabagEntry } from "./modules/zoteroIntegration";
+import { WallabagSync } from "./modules/wallabagSync";
+
+// Store the WallabagSync instance globally
+let wallabagSync: WallabagSync | null = null;
 
 async function onStartup() {
   await Promise.all([
@@ -36,9 +40,31 @@ async function onStartup() {
 
   UIExampleFactory.registerReaderItemPaneSection();
 
+  // Initialize Wallabag sync
+  initWallabagSync();
+
   await Promise.all(
     Zotero.getMainWindows().map((win) => onMainWindowLoad(win)),
   );
+}
+
+/**
+ * Initialize the Wallabag sync functionality
+ */
+function initWallabagSync() {
+  try {
+    Zotero.debug("ZotBag: Initializing Wallabag sync");
+
+    // Create a new WallabagSync instance
+    wallabagSync = new WallabagSync();
+
+    // Start the sync process
+    wallabagSync.startSync();
+
+    Zotero.debug("ZotBag: Wallabag sync initialized");
+  } catch (error: any) {
+    Zotero.debug(`ZotBag: Error initializing Wallabag sync: ${error.message}`);
+  }
 }
 
 async function onMainWindowLoad(win: Window): Promise<void> {
@@ -130,7 +156,7 @@ async function onNotify(
 }
 
 /**
- * This function is just an example of dispatcher for Preference UI events.
+ * This function is a dispatcher for Preference UI events.
  * Any operations should be placed in a function to keep this funcion clear.
  * @param type event type
  * @param data event data
@@ -146,8 +172,65 @@ async function onPrefsEvent(type: string, data: { [key: string]: any }) {
     case "wallabag-import":
       importWallabagEntry(data.window);
       break;
+    case "wallabag-sync-now":
+      syncWallabagNow(data.window);
+      break;
+    case "wallabag-sync-pref-changed":
+      restartWallabagSync();
+      break;
     default:
       return;
+  }
+}
+
+/**
+ * Manually trigger a Wallabag sync
+ * @param window The preferences window
+ */
+async function syncWallabagNow(window: Window) {
+  try {
+    Zotero.debug("ZotBag: Manual sync triggered");
+
+    // Check if the sync instance exists
+    if (!wallabagSync) {
+      // Create a new instance if it doesn't exist
+      wallabagSync = new WallabagSync();
+    }
+
+    // Run the sync with progress window
+    await wallabagSync.syncWallabagEntries(true);
+  } catch (error: any) {
+    Zotero.debug(`ZotBag: Error in manual sync: ${error.message}`);
+    new ztoolkit.ProgressWindow("Wallabag Sync", {
+      closeOnClick: true,
+      closeTime: 5000,
+    })
+      .createLine({
+        text: `Error: ${error.message}`,
+        type: "error",
+        progress: 100,
+      })
+      .show();
+  }
+}
+
+/**
+ * Restart the Wallabag sync when preferences change
+ */
+function restartWallabagSync() {
+  try {
+    Zotero.debug("ZotBag: Restarting Wallabag sync due to preference changes");
+
+    // Check if the sync instance exists
+    if (!wallabagSync) {
+      // Create a new instance if it doesn't exist
+      wallabagSync = new WallabagSync();
+    }
+
+    // Restart the sync
+    wallabagSync.restartSync();
+  } catch (error: any) {
+    Zotero.debug(`ZotBag: Error restarting sync: ${error.message}`);
   }
 }
 

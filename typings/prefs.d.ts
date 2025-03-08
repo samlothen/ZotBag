@@ -14,6 +14,10 @@ declare namespace _ZoteroTypes {
       "wallabag.clientSecret": string;
       "wallabag.username": string;
       "wallabag.password": string;
+      "wallabag.sync.enabled": boolean;
+      "wallabag.sync.interval": number;
+      "wallabag.sync.lastTimestamp": number;
+      "wallabag.sync.downloadPdf": boolean;
     };
   }
 }

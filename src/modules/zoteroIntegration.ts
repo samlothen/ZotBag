@@ -91,10 +91,10 @@ export async function createZoteroItemFromWallabagEntry(
             item.setField("websiteTitle", entry.domain_name);
         }
 
-        // Add Wallabag link to extra field
+        // Add Wallabag ID and link to extra field
         const serverUrl = getPref("wallabag.serverUrl");
         const wallabagLink = `${serverUrl}/view/${entry.id}`;
-        item.setField("extra", `Wallabag Link: ${wallabagLink}`);
+        item.setField("extra", `Wallabag ID: ${entry.id}\nWallabag Link: ${wallabagLink}`);
 
         // Add published_by as creators if available
         if (entry.published_by && entry.published_by.length > 0) {

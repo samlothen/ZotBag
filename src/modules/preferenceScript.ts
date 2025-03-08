@@ -107,6 +107,7 @@ async function updatePrefsUI() {
 }
 
 function bindPrefEvents() {
+  // Example event listeners
   addon.data
     .prefs!.window.document.querySelector(
       `#zotero-prefpane-${config.addonRef}-enable`,
@@ -127,5 +128,50 @@ function bindPrefEvents() {
       addon.data.prefs!.window.alert(
         `Successfully changed to ${(e.target as HTMLInputElement).value}!`,
       );
+    });
+
+  // Wallabag sync preferences event listeners
+  // Sync enabled checkbox
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-wallabag-sync-enabled`,
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log("Wallabag sync enabled changed", e);
+      // Notify that sync preferences have changed
+      addon.hooks.onPrefsEvent("wallabag-sync-pref-changed", {});
+    });
+
+  // Sync interval input
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-wallabag-sync-interval`,
+    )
+    ?.addEventListener("change", (e) => {
+      ztoolkit.log("Wallabag sync interval changed", e);
+      // Notify that sync preferences have changed
+      addon.hooks.onPrefsEvent("wallabag-sync-pref-changed", {});
+    });
+
+  // Sync download PDF checkbox
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-wallabag-sync-downloadPdf`,
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log("Wallabag sync download PDF changed", e);
+      // Notify that sync preferences have changed
+      addon.hooks.onPrefsEvent("wallabag-sync-pref-changed", {});
+    });
+
+  // Sync now button
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-wallabag-sync-now`,
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log("Wallabag sync now button clicked", e);
+      // Trigger manual sync
+      addon.hooks.onPrefsEvent("wallabag-sync-now", { window: addon.data.prefs!.window });
     });
 }

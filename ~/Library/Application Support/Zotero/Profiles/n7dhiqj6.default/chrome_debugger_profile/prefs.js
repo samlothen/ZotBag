@@ -35,7 +35,7 @@ user_pref("devtools.inspector.activeSidebar", "ruleview");
 user_pref("devtools.inspector.selectedSidebar", "ruleview");
 user_pref("devtools.inspector.showAllAnonymousContent", true);
 user_pref("devtools.inspector.showUserAgentStyles", true);
-user_pref("devtools.netmonitor.columnsData", "[{\"name\":\"status\",\"minWidth\":30,\"width\":5.72},{\"name\":\"method\",\"minWidth\":30,\"width\":5.72},{\"name\":\"domain\",\"minWidth\":30,\"width\":11.43},{\"name\":\"file\",\"minWidth\":30,\"width\":28.57},{\"name\":\"url\",\"minWidth\":30,\"width\":25},{\"name\":\"initiator\",\"minWidth\":30,\"width\":11.43},{\"name\":\"type\",\"minWidth\":30,\"width\":5.72},{\"name\":\"transferred\",\"minWidth\":30,\"width\":11.43},{\"name\":\"contentSize\",\"minWidth\":30,\"width\":5.72},{\"name\":\"waterfall\",\"minWidth\":150,\"width\":14.29}]");
+user_pref("devtools.netmonitor.columnsData", "[{\"name\":\"status\",\"minWidth\":30,\"width\":5.84},{\"name\":\"method\",\"minWidth\":30,\"width\":5.84},{\"name\":\"domain\",\"minWidth\":30,\"width\":11.66},{\"name\":\"file\",\"minWidth\":30,\"width\":29.31},{\"name\":\"url\",\"minWidth\":30,\"width\":25},{\"name\":\"initiator\",\"minWidth\":30,\"width\":11.66},{\"name\":\"type\",\"minWidth\":30,\"width\":5.84},{\"name\":\"transferred\",\"minWidth\":30,\"width\":11.52},{\"name\":\"contentSize\",\"minWidth\":30,\"width\":5.84},{\"name\":\"waterfall\",\"minWidth\":150,\"width\":12.5}]");
 user_pref("devtools.toolbox.selectedTool", "jsdebugger");
 user_pref("devtools.toolbox.splitconsoleEnabled", true);
 user_pref("devtools.toolsidebar-height.inspector", 350);

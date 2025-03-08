@@ -46,6 +46,30 @@ export interface WallabagEntry {
     };
 }
 
+export interface EntriesResponse {
+    page: number;
+    limit: number;
+    pages: number;
+    total: number;
+    _links: {
+        self: {
+            href: string;
+        };
+        first: {
+            href: string;
+        };
+        last: {
+            href: string;
+        };
+        next?: {
+            href: string;
+        };
+    };
+    _embedded: {
+        items: WallabagEntry[];
+    };
+}
+
 export class WallabagAPI {
     private serverUrl: string;
     private clientId: string;
@@ -178,6 +202,115 @@ export class WallabagAPI {
             return await response.arrayBuffer();
         } catch (error: any) {
             Zotero.debug(`ZotBag: Error downloading PDF: ${error.message}`);
+            throw error;
+        }
+    }
+
+    /**
+     * Get entries from the Wallabag server with pagination
+     * @param since Optional timestamp to filter entries updated since a specific time
+     * @param page Page number to fetch (starting from 1)
+     * @param perPage Number of entries per page (default: 30)
+     * @returns A page of entries
+     */
+    async getEntries(since?: number, page: number = 1, perPage: number = 30): Promise<EntriesResponse> {
+        try {
+            Zotero.debug(`ZotBag: Fetching entries page ${page} (since: ${since || 'all'})`);
+
+            // Validate that all required fields are filled
+            if (!this.serverUrl || !this.clientId || !this.clientSecret || !this.username || !this.password) {
+                Zotero.debug("ZotBag: Missing required credentials for Wallabag connection");
+                throw new Error("Please fill in all Wallabag credentials in the settings");
+            }
+
+            // Get access token
+            const accessToken = await this.getAccessToken();
+
+            // Build the URL with query parameters
+            const params = new URLSearchParams({
+                page: page.toString(),
+                perPage: perPage.toString(),
+                sort: "updated", // Sort by update date
+                order: "desc", // Most recent first
+                detail: "full" // Include full content
+            });
+
+            // Add since parameter if provided
+            if (since) {
+                params.append("since", since.toString());
+            }
+
+            // Fetch the entries
+            const entriesUrl = `${this.serverUrl}/api/entries?${params.toString()}`;
+            const response = await fetch(entriesUrl, {
+                headers: {
+                    "Authorization": `Bearer ${accessToken}`
+                }
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                Zotero.debug(`ZotBag: Failed to fetch entries. Status: ${response.status}, Response: ${errorText}`);
+                throw new Error(`Failed to fetch entries: ${response.status} ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            const entriesResponse = data as unknown as EntriesResponse;
+            Zotero.debug(`ZotBag: Successfully fetched ${entriesResponse._embedded.items.length} entries (page ${entriesResponse.page} of ${entriesResponse.pages})`);
+            return entriesResponse;
+        } catch (error: any) {
+            Zotero.debug(`ZotBag: Error fetching entries: ${error.message}`);
+            throw error;
+        }
+    }
+
+    /**
+     * Get all entries from the Wallabag server by fetching all pages
+     * @param since Optional timestamp to filter entries updated since a specific time
+     * @param progressCallback Optional callback function to report progress
+     * @returns All entries matching the criteria
+     */
+    async getAllEntries(
+        since?: number,
+        progressCallback?: (current: number, total: number) => void
+    ): Promise<WallabagEntry[]> {
+        try {
+            Zotero.debug(`ZotBag: Fetching all entries (since: ${since || 'all'})`);
+
+            // Get the first page to determine total pages
+            const firstPage = await this.getEntries(since, 1);
+            const totalPages = firstPage.pages;
+            const totalEntries = firstPage.total;
+
+            // Initialize the result with the first page items
+            let allEntries = [...firstPage._embedded.items];
+
+            // Report initial progress
+            if (progressCallback) {
+                progressCallback(allEntries.length, totalEntries);
+            }
+
+            // Fetch remaining pages if any
+            if (totalPages > 1) {
+                // Create an array of page numbers to fetch (starting from 2)
+                const remainingPages = Array.from({ length: totalPages - 1 }, (_, i) => i + 2);
+
+                // Fetch pages sequentially to avoid overwhelming the server
+                for (const pageNum of remainingPages) {
+                    const pageData = await this.getEntries(since, pageNum);
+                    allEntries = [...allEntries, ...pageData._embedded.items];
+
+                    // Report progress
+                    if (progressCallback) {
+                        progressCallback(allEntries.length, totalEntries);
+                    }
+                }
+            }
+
+            Zotero.debug(`ZotBag: Successfully fetched all ${allEntries.length} entries`);
+            return allEntries;
+        } catch (error: any) {
+            Zotero.debug(`ZotBag: Error fetching all entries: ${error.message}`);
             throw error;
         }
     }
