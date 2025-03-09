@@ -62,4 +62,5 @@ user_pref("storage.vacuum.last.index", 1);
 user_pref("storage.vacuum.last.places.sqlite", 1741376309);
 user_pref("toolkit.startup.last_success", 1741374940);
 user_pref("toolkit.startup.max_resumed_crashes", -1);
+user_pref("toolkit.startup.recent_crashes", 2);
 user_pref("urlclassifier.updateinterval", 172800);

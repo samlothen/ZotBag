@@ -94,11 +94,10 @@ async function onMainWindowLoad(win: Window): Promise<void> {
     text: `[30%] ${getString("startup-begin")}`,
   });
 
-  UIExampleFactory.registerStyleSheet(win);
-
-  UIExampleFactory.registerRightClickMenuItem();
-
-  UIExampleFactory.registerRightClickMenuPopup(win);
+  // Removed template elements
+  // UIExampleFactory.registerStyleSheet(win);
+  // UIExampleFactory.registerRightClickMenuItem();
+  // UIExampleFactory.registerRightClickMenuPopup(win);
 
   UIExampleFactory.registerWindowMenuWithSeparator();
 
