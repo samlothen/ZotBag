@@ -41,7 +41,7 @@ user_pref("extensions.webextensions.uuids", "{\"zotbag@nodomain.local\":\"e333e5
 user_pref("extensions.zotero.dataDir", "/Users/sam/Zotero");
 user_pref("extensions.zotero.firstRun.skipFirefoxProfileAccessCheck", true);
 user_pref("extensions.zotero.firstRun2", false);
-user_pref("extensions.zotero.lastSelectedPrefPane", "plugin-pane-G21rHZit-zotbag@nodomain.local");
+user_pref("extensions.zotero.lastSelectedPrefPane", "plugin-pane-yHSlEoiT-zotbag@nodomain.local");
 user_pref("extensions.zotero.lastViewedFolder", "L1");
 user_pref("extensions.zotero.panes.abstract.open", true);
 user_pref("extensions.zotero.panes.attachment-annotations.open", true);
@@ -66,7 +66,7 @@ user_pref("extensions.zotero.zotbag.wallabag.clientSecret", "1bmf6wnlwun4gcg00g8
 user_pref("extensions.zotero.zotbag.wallabag.password", "Release-job-risk-unwieldy-swelter-revive-laurel66");
 user_pref("extensions.zotero.zotbag.wallabag.serverUrl", "https://wallabag.lan.emoh.nu");
 user_pref("extensions.zotero.zotbag.wallabag.sync.enabled", true);
-user_pref("extensions.zotero.zotbag.wallabag.sync.lastTimestamp", 1741482705);
+user_pref("extensions.zotero.zotbag.wallabag.sync.lastTimestamp", 1741545447);
 user_pref("extensions.zotero.zotbag.wallabag.username", "sam@lothen.se");
 user_pref("extensions.zoteroMacWordIntegration.installationWarning.lastDisplayed", 1741382379);
 user_pref("extensions.zoteroMacWordIntegration.lastAttemptedVersion", "7.0.6.SOURCE");

@@ -84,12 +84,19 @@ export async function createZoteroItemFromWallabagEntry(
         if (entry.created_at) {
             const date = new Date(entry.created_at);
             item.setField("date", date.toISOString().split("T")[0]);
+
+            // Set the dateAdded property to the created_at value
+            // Zotero expects dateAdded as an ISO string
+            item.dateAdded = date.toISOString();
         }
 
         // Set domain_name as website if available
         if (entry.domain_name) {
             item.setField("websiteTitle", entry.domain_name);
         }
+
+        // Set the Wallabag ID as the short title for sorting
+        item.setField("shortTitle", `${entry.id}`);
 
         // Add Wallabag ID and link to extra field
         const serverUrl = getPref("wallabag.serverUrl");

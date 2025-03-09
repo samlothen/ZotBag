@@ -311,12 +311,19 @@ export class WallabagSync {
             if (entry.created_at) {
                 const date = new Date(entry.created_at);
                 item.setField("date", date.toISOString().split("T")[0]);
+
+                // Set the dateAdded property to the created_at value
+                // Zotero expects dateAdded as an ISO string
+                item.dateAdded = date.toISOString();
             }
 
             // Set domain_name as website if available
             if (entry.domain_name) {
                 item.setField("websiteTitle", entry.domain_name);
             }
+
+            // Set the Wallabag ID as the short title for sorting
+            item.setField("shortTitle", `${entry.id}`);
 
             // Update the extra field to ensure it contains the Wallabag ID and link
             let extra = item.getField("extra") as string;
@@ -332,6 +339,9 @@ export class WallabagSync {
             if (!extra.includes(`Wallabag Link: ${wallabagLink}`)) {
                 extra += `\nWallabag Link: ${wallabagLink}`;
             }
+
+            // Remove any wallabag-id entries that might exist from previous versions
+            extra = extra.replace(/wallabag-id: \d+\n?/g, '');
 
             item.setField("extra", extra.trim());
 
