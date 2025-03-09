@@ -17,8 +17,26 @@ pref-wallabag-sync-title = 同步设置
 pref-wallabag-sync-enabled =
     .label = 启用与 Wallabag 的自动同步
 pref-wallabag-sync-interval = 同步间隔（分钟）:
+# Format selection
+pref-wallabag-formats-title = 下载格式
+pref-wallabag-formats-description = 选择同步时要下载并附加的格式：
+pref-wallabag-import-formats-description = 选择导入时要下载并附加的格式：
+pref-wallabag-formats-xml = 
+    .label = XML
+pref-wallabag-formats-json = 
+    .label = JSON
+pref-wallabag-formats-txt = 
+    .label = 文本
+pref-wallabag-formats-csv = 
+    .label = CSV
+pref-wallabag-formats-pdf = 
+    .label = PDF
+pref-wallabag-formats-epub = 
+    .label = EPUB
+
+# Legacy option (hidden in UI but kept for backward compatibility)
 pref-wallabag-sync-downloadPdf =
-    .label = 同步时下载并附加 PDF
+    .label = 同步时下载并附加 PDF（旧版）
 pref-wallabag-sync-now = 立即同步
 pref-wallabag-sync-reset = 重置同步状态
 

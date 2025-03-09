@@ -81,10 +81,49 @@
         preference="wallabag.sync.interval" style="width: 100px;" min="5" max="1440"></html:input>
     </hbox>
 
-    <!-- Download PDF option -->
+    <!-- Format selection -->
+    <groupbox>
+      <label>
+        <html:h4 data-l10n-id="pref-wallabag-formats-title">Download Formats</html:h4>
+      </label>
+      <description data-l10n-id="pref-wallabag-formats-description">Select which formats to download and attach when
+        syncing:</description>
+
+      <hbox align="center">
+        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-xml" preference="wallabag.formats.xml"
+          data-l10n-id="pref-wallabag-formats-xml" />
+      </hbox>
+
+      <hbox align="center">
+        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-json" preference="wallabag.formats.json"
+          data-l10n-id="pref-wallabag-formats-json" />
+      </hbox>
+
+      <hbox align="center">
+        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-txt" preference="wallabag.formats.txt"
+          data-l10n-id="pref-wallabag-formats-txt" />
+      </hbox>
+
+      <hbox align="center">
+        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-csv" preference="wallabag.formats.csv"
+          data-l10n-id="pref-wallabag-formats-csv" />
+      </hbox>
+
+      <hbox align="center">
+        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-pdf" preference="wallabag.formats.pdf"
+          data-l10n-id="pref-wallabag-formats-pdf" />
+      </hbox>
+
+      <hbox align="center">
+        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-epub" preference="wallabag.formats.epub"
+          data-l10n-id="pref-wallabag-formats-epub" />
+      </hbox>
+    </groupbox>
+
+    <!-- Legacy PDF option (kept for backward compatibility) -->
     <hbox align="center">
       <checkbox id="zotero-prefpane-__addonRef__-wallabag-sync-downloadPdf" preference="wallabag.sync.downloadPdf"
-        data-l10n-id="pref-wallabag-sync-downloadPdf" />
+        data-l10n-id="pref-wallabag-sync-downloadPdf" hidden="true" />
     </hbox>
 
     <!-- Manual Sync and Reset Buttons -->
@@ -117,10 +156,50 @@
       </button>
     </hbox>
 
-    <!-- Add PDF download option -->
+    <!-- Format selection for import -->
+    <groupbox>
+      <label>
+        <html:h4 data-l10n-id="pref-wallabag-formats-title">Download Formats</html:h4>
+      </label>
+      <description data-l10n-id="pref-wallabag-import-formats-description">Select which formats to download and attach
+        when importing:</description>
+
+      <hbox align="center">
+        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-xml" preference="wallabag.formats.xml"
+          data-l10n-id="pref-wallabag-formats-xml" />
+      </hbox>
+
+      <hbox align="center">
+        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-json" preference="wallabag.formats.json"
+          data-l10n-id="pref-wallabag-formats-json" />
+      </hbox>
+
+      <hbox align="center">
+        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-txt" preference="wallabag.formats.txt"
+          data-l10n-id="pref-wallabag-formats-txt" />
+      </hbox>
+
+      <hbox align="center">
+        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-csv" preference="wallabag.formats.csv"
+          data-l10n-id="pref-wallabag-formats-csv" />
+      </hbox>
+
+      <hbox align="center">
+        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-pdf" preference="wallabag.formats.pdf"
+          data-l10n-id="pref-wallabag-formats-pdf" />
+      </hbox>
+
+      <hbox align="center">
+        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-epub" preference="wallabag.formats.epub"
+          data-l10n-id="pref-wallabag-formats-epub" />
+      </hbox>
+    </groupbox>
+
+    <!-- Legacy PDF download option (kept for backward compatibility) -->
     <hbox align="center">
       <spacer width="100" />
-      <checkbox id="zotero-prefpane-__addonRef__-wallabag-downloadPdf" data-l10n-id="pref-wallabag-downloadPdf" />
+      <checkbox id="zotero-prefpane-__addonRef__-wallabag-downloadPdf" data-l10n-id="pref-wallabag-downloadPdf"
+        hidden="true" />
     </hbox>
   </groupbox>
 </groupbox>

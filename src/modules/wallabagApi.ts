@@ -167,13 +167,14 @@ export class WallabagAPI {
     }
 
     /**
-     * Download an entry as PDF from the Wallabag server
+     * Download an entry in a specific format from the Wallabag server
      * @param entryId The ID of the entry to download
-     * @returns The PDF data as an ArrayBuffer
+     * @param format The format to download (xml, json, txt, csv, pdf, epub)
+     * @returns The data as an ArrayBuffer
      */
-    async downloadEntryAsPdf(entryId: number): Promise<ArrayBuffer> {
+    async downloadEntryInFormat(entryId: number, format: string): Promise<ArrayBuffer> {
         try {
-            Zotero.debug(`ZotBag: Downloading PDF for entry with ID ${entryId}`);
+            Zotero.debug(`ZotBag: Downloading ${format.toUpperCase()} for entry with ID ${entryId}`);
 
             // Validate that all required fields are filled
             if (!this.serverUrl || !this.clientId || !this.clientSecret || !this.username || !this.password) {
@@ -184,9 +185,9 @@ export class WallabagAPI {
             // Get access token
             const accessToken = await this.getAccessToken();
 
-            // Fetch the PDF
-            const pdfUrl = `${this.serverUrl}/api/entries/${entryId}/export.pdf`;
-            const response = await fetch(pdfUrl, {
+            // Fetch the file in the specified format
+            const url = `${this.serverUrl}/api/entries/${entryId}/export.${format}`;
+            const response = await fetch(url, {
                 headers: {
                     "Authorization": `Bearer ${accessToken}`
                 }
@@ -194,16 +195,25 @@ export class WallabagAPI {
 
             if (!response.ok) {
                 const errorText = await response.text();
-                Zotero.debug(`ZotBag: Failed to download PDF. Status: ${response.status}, Response: ${errorText}`);
-                throw new Error(`Failed to download PDF: ${response.status} ${response.statusText}`);
+                Zotero.debug(`ZotBag: Failed to download ${format.toUpperCase()}. Status: ${response.status}, Response: ${errorText}`);
+                throw new Error(`Failed to download ${format.toUpperCase()}: ${response.status} ${response.statusText}`);
             }
 
-            // Return the PDF data as ArrayBuffer
+            // Return the data as ArrayBuffer
             return await response.arrayBuffer();
         } catch (error: any) {
-            Zotero.debug(`ZotBag: Error downloading PDF: ${error.message}`);
+            Zotero.debug(`ZotBag: Error downloading ${format.toUpperCase()}: ${error.message}`);
             throw error;
         }
+    }
+
+    /**
+     * Download an entry as PDF from the Wallabag server
+     * @param entryId The ID of the entry to download
+     * @returns The PDF data as an ArrayBuffer
+     */
+    async downloadEntryAsPdf(entryId: number): Promise<ArrayBuffer> {
+        return this.downloadEntryInFormat(entryId, "pdf");
     }
 
     /**

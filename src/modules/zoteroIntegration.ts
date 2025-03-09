@@ -2,19 +2,21 @@ import { WallabagAPI, WallabagEntry } from "./wallabagApi";
 import { getPref } from "../utils/prefs";
 
 /**
- * Save a PDF as an attachment to a Zotero item
- * @param item The Zotero item to attach the PDF to
- * @param pdfData The PDF data as an ArrayBuffer
- * @param filename The filename for the PDF
+ * Save an attachment in a specific format to a Zotero item
+ * @param item The Zotero item to attach the file to
+ * @param data The file data as an ArrayBuffer
+ * @param filename The filename for the file
+ * @param contentType The content type of the file
  * @returns The created attachment item
  */
-async function savePdfAttachment(
+async function saveAttachment(
     item: Zotero.Item,
-    pdfData: ArrayBuffer,
-    filename: string
+    data: ArrayBuffer,
+    filename: string,
+    contentType: string
 ): Promise<Zotero.Item> {
     try {
-        Zotero.debug(`ZotBag: Saving PDF attachment for item: ${item.getField('title')}`);
+        Zotero.debug(`ZotBag: Saving ${contentType} attachment for item: ${item.getField('title')}`);
 
         // Create a temporary file
         const tmpFile = Zotero.getTempDirectory();
@@ -23,14 +25,14 @@ async function savePdfAttachment(
             tmpFile.remove(false);
         }
 
-        // Write the PDF data to the temporary file using Mozilla Components API
+        // Write the data to the temporary file using Mozilla Components API
         // Use type assertions to avoid TypeScript errors with Mozilla-specific APIs
         const fileOutputStream = (Components.classes as any)["@mozilla.org/network/file-output-stream;1"]
             .createInstance(Components.interfaces.nsIFileOutputStream);
         fileOutputStream.init(tmpFile, 0x02 | 0x08 | 0x20, 0o666, 0);
 
         // Convert ArrayBuffer to Uint8Array
-        const uint8Array = new Uint8Array(pdfData);
+        const uint8Array = new Uint8Array(data);
 
         // Write the data
         const binaryOutputStream = (Components.classes as any)["@mozilla.org/binaryoutputstream;1"]
@@ -44,7 +46,8 @@ async function savePdfAttachment(
         const attachment = await Zotero.Attachments.importFromFile({
             file: tmpFile,
             parentItemID: item.id,
-            title: filename
+            title: filename,
+            contentType: contentType
         });
 
         // Remove the temporary file
@@ -52,12 +55,27 @@ async function savePdfAttachment(
             tmpFile.remove(false);
         }
 
-        Zotero.debug(`ZotBag: Successfully saved PDF attachment`);
+        Zotero.debug(`ZotBag: Successfully saved ${contentType} attachment`);
         return attachment;
     } catch (error: any) {
-        Zotero.debug(`ZotBag: Error saving PDF attachment: ${error.message}`);
+        Zotero.debug(`ZotBag: Error saving ${contentType} attachment: ${error.message}`);
         throw error;
     }
+}
+
+/**
+ * Save a PDF as an attachment to a Zotero item (legacy method for backward compatibility)
+ * @param item The Zotero item to attach the PDF to
+ * @param pdfData The PDF data as an ArrayBuffer
+ * @param filename The filename for the PDF
+ * @returns The created attachment item
+ */
+async function savePdfAttachment(
+    item: Zotero.Item,
+    pdfData: ArrayBuffer,
+    filename: string
+): Promise<Zotero.Item> {
+    return saveAttachment(item, pdfData, filename, "application/pdf");
 }
 
 /**
@@ -153,21 +171,51 @@ export async function createZoteroItemFromWallabagEntry(
             // Continue even if adding to collection fails
         }
 
-        // If downloadPdf is true, fetch and attach the PDF
-        if (downloadPdf) {
-            try {
-                const wallabagApi = new WallabagAPI();
-                const pdfData = await wallabagApi.downloadEntryAsPdf(entry.id);
+        // Handle format downloads
+        try {
+            const wallabagApi = new WallabagAPI();
 
-                // Create a filename based on the entry title
-                const safeTitle = entry.title.replace(/[^a-z0-9]/gi, '_').substring(0, 50);
-                const filename = `${safeTitle}_wallabag_${entry.id}.pdf`;
+            // Create a safe title for filenames
+            const safeTitle = entry.title.replace(/[^a-z0-9]/gi, '_').substring(0, 50);
 
-                await savePdfAttachment(item, pdfData, filename);
-            } catch (error: any) {
-                Zotero.debug(`ZotBag: Error attaching PDF: ${error.message}`);
-                // Continue without the PDF if there's an error
+            // For backward compatibility, check the legacy downloadPdf parameter
+            if (downloadPdf) {
+                try {
+                    const pdfData = await wallabagApi.downloadEntryAsPdf(entry.id);
+                    const filename = `${safeTitle}_wallabag_${entry.id}.pdf`;
+                    await savePdfAttachment(item, pdfData, filename);
+                } catch (formatError: any) {
+                    Zotero.debug(`ZotBag: Error attaching PDF: ${formatError.message}`);
+                    // Continue without the PDF if there's an error
+                }
+            } else {
+                // Check each format preference and download if enabled
+                const formats = [
+                    { format: "xml", pref: "wallabag.formats.xml", contentType: "application/xml" },
+                    { format: "json", pref: "wallabag.formats.json", contentType: "application/json" },
+                    { format: "txt", pref: "wallabag.formats.txt", contentType: "text/plain" },
+                    { format: "csv", pref: "wallabag.formats.csv", contentType: "text/csv" },
+                    { format: "pdf", pref: "wallabag.formats.pdf", contentType: "application/pdf" },
+                    { format: "epub", pref: "wallabag.formats.epub", contentType: "application/epub+zip" }
+                ];
+
+                for (const { format, pref, contentType } of formats) {
+                    if (getPref(pref as any)) {
+                        try {
+                            Zotero.debug(`ZotBag: Downloading ${format} for entry ${entry.id}`);
+                            const data = await wallabagApi.downloadEntryInFormat(entry.id, format);
+                            const filename = `${safeTitle}_wallabag_${entry.id}.${format}`;
+                            await saveAttachment(item, data, filename, contentType);
+                        } catch (formatError: any) {
+                            Zotero.debug(`ZotBag: Error attaching ${format.toUpperCase()}: ${formatError.message}`);
+                            // Continue with other formats if there's an error
+                        }
+                    }
+                }
             }
+        } catch (error: any) {
+            Zotero.debug(`ZotBag: Error attaching files: ${error.message}`);
+            // Continue without attachments if there's an error
         }
 
         Zotero.debug(`ZotBag: Successfully created Zotero item for Wallabag entry: ${entry.title}`);

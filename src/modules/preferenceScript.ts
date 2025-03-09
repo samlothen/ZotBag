@@ -153,7 +153,29 @@ function bindPrefEvents() {
       addon.hooks.onPrefsEvent("wallabag-sync-pref-changed", {});
     });
 
-  // Sync download PDF checkbox
+  // Format checkboxes
+  const formatIds = [
+    "wallabag-formats-xml",
+    "wallabag-formats-json",
+    "wallabag-formats-txt",
+    "wallabag-formats-csv",
+    "wallabag-formats-pdf",
+    "wallabag-formats-epub"
+  ];
+
+  for (const formatId of formatIds) {
+    addon.data
+      .prefs!.window.document.querySelector(
+        `#zotero-prefpane-${config.addonRef}-${formatId}`,
+      )
+      ?.addEventListener("command", (e) => {
+        ztoolkit.log(`Wallabag format ${formatId} changed`, e);
+        // Notify that sync preferences have changed
+        addon.hooks.onPrefsEvent("wallabag-sync-pref-changed", {});
+      });
+  }
+
+  // Legacy sync download PDF checkbox (kept for backward compatibility)
   addon.data
     .prefs!.window.document.querySelector(
       `#zotero-prefpane-${config.addonRef}-wallabag-sync-downloadPdf`,
@@ -162,6 +184,15 @@ function bindPrefEvents() {
       ztoolkit.log("Wallabag sync download PDF changed", e);
       // Notify that sync preferences have changed
       addon.hooks.onPrefsEvent("wallabag-sync-pref-changed", {});
+    });
+
+  // Legacy import PDF checkbox (kept for backward compatibility)
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-wallabag-downloadPdf`,
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log("Wallabag import download PDF changed", e);
     });
 
   // Sync now button

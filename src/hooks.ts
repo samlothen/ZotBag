@@ -366,7 +366,15 @@ async function importWallabagEntry(window: Window) {
       throw new Error("Please enter a valid entry ID");
     }
 
-    // Get the PDF download checkbox state
+    // Check if any format is selected for download
+    const anyFormatSelected = getPref("wallabag.formats.xml") ||
+      getPref("wallabag.formats.json") ||
+      getPref("wallabag.formats.txt") ||
+      getPref("wallabag.formats.csv") ||
+      getPref("wallabag.formats.pdf") ||
+      getPref("wallabag.formats.epub");
+
+    // For backward compatibility, also check the legacy PDF checkbox
     const downloadPdfCheckbox = window.document.getElementById(
       `zotero-prefpane-${addon.data.config.addonRef}-wallabag-downloadPdf`
     ) as HTMLInputElement;
@@ -379,7 +387,7 @@ async function importWallabagEntry(window: Window) {
       closeTime: -1,
     })
       .createLine({
-        text: `Importing entry ${entryId} from Wallabag...${downloadPdf ? " (with PDF)" : ""}`,
+        text: `Importing entry ${entryId} from Wallabag...${(downloadPdf || anyFormatSelected) ? " (with attachments)" : ""}`,
         type: "default",
         progress: 50,
       })

@@ -18,6 +18,12 @@ declare namespace _ZoteroTypes {
       "wallabag.sync.interval": number;
       "wallabag.sync.lastTimestamp": number;
       "wallabag.sync.downloadPdf": boolean;
+      "wallabag.formats.xml": boolean;
+      "wallabag.formats.json": boolean;
+      "wallabag.formats.txt": boolean;
+      "wallabag.formats.csv": boolean;
+      "wallabag.formats.pdf": boolean;
+      "wallabag.formats.epub": boolean;
     };
   }
 }
