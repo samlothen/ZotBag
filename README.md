@@ -75,6 +75,12 @@ Once configured, ZotBag will automatically sync with Wallabag at the specified i
 2. Click "Sync Now" to manually trigger a sync
 3. Click "Reset Sync Status" to force a full sync on the next run
 
+## 🤖 About This Project
+
+This project was created entirely using LLM/AI tools. Since I have limited knowledge of TypeScript, there may be code quality issues or areas that could be improved.
+
+If you find any bugs, inefficiencies, or ways to enhance the code, I would greatly appreciate your contributions! Feel free to submit a pull request to help refine the project. 🚀
+
 ## License
 
 This project is licensed under the [AGPL-3.0 License](LICENSE).
