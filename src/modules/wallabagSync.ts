@@ -8,9 +8,18 @@ import { createZoteroItemFromWallabagEntry } from "./zoteroIntegration";
 export class WallabagSync {
     private wallabagApi: WallabagAPI;
     private syncTimer: number | null = null;
+    private syncInProgress: boolean = false;
 
     constructor() {
         this.wallabagApi = new WallabagAPI();
+    }
+
+    /**
+     * Check if a sync is currently in progress
+     * @returns True if a sync is in progress, false otherwise
+     */
+    isSyncInProgress(): boolean {
+        return this.syncInProgress;
     }
 
     /**
@@ -75,9 +84,31 @@ export class WallabagSync {
     /**
      * Synchronize Wallabag entries with Zotero
      * @param showProgress Whether to show a progress window
-     * @returns A promise that resolves when the sync is complete
+     * @returns A promise that resolves when the sync is complete, or null if a sync is already in progress
      */
-    async syncWallabagEntries(showProgress: boolean = true): Promise<{ added: number; updated: number; errors: number }> {
+    async syncWallabagEntries(showProgress: boolean = true): Promise<{ added: number; updated: number; errors: number } | null> {
+        // Check if a sync is already in progress
+        if (this.syncInProgress) {
+            Zotero.debug("ZotBag: Sync already in progress, skipping");
+            if (showProgress) {
+                // Show a notification to the user
+                new ztoolkit.ProgressWindow("Wallabag Sync", {
+                    closeOnClick: true,
+                    closeTime: 3000
+                })
+                    .createLine({
+                        text: "A sync is already in progress",
+                        type: "default",
+                        progress: 100
+                    })
+                    .show();
+            }
+            return null;
+        }
+
+        // Set the flag to indicate a sync is in progress
+        this.syncInProgress = true;
+
         try {
             Zotero.debug("ZotBag: Starting Wallabag sync");
 

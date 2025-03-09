@@ -6,6 +6,7 @@ import {
   UIExampleFactory,
 } from "./modules/examples";
 import { getString, initLocale } from "./utils/locale";
+import { getPref, setPref } from "./utils/prefs";
 import { registerPrefsScripts } from "./modules/preferenceScript";
 import { createZToolkit } from "./utils/ztoolkit";
 import { WallabagAPI } from "./modules/wallabagApi";
@@ -175,6 +176,9 @@ async function onPrefsEvent(type: string, data: { [key: string]: any }) {
     case "wallabag-sync-now":
       syncWallabagNow(data.window);
       break;
+    case "wallabag-sync-reset":
+      resetWallabagSyncStatus(data.window);
+      break;
     case "wallabag-sync-pref-changed":
       restartWallabagSync();
       break;
@@ -197,10 +201,67 @@ async function syncWallabagNow(window: Window) {
       wallabagSync = new WallabagSync();
     }
 
+    // Check if a sync is already in progress
+    if (wallabagSync.isSyncInProgress()) {
+      Zotero.debug("ZotBag: Sync already in progress, not starting another one");
+
+      // Show a notification to the user
+      new ztoolkit.ProgressWindow("Wallabag Sync", {
+        closeOnClick: true,
+        closeTime: 3000
+      })
+        .createLine({
+          text: "A sync is already in progress",
+          type: "default",
+          progress: 100
+        })
+        .show();
+
+      return;
+    }
+
     // Run the sync with progress window
     await wallabagSync.syncWallabagEntries(true);
   } catch (error: any) {
     Zotero.debug(`ZotBag: Error in manual sync: ${error.message}`);
+    new ztoolkit.ProgressWindow("Wallabag Sync", {
+      closeOnClick: true,
+      closeTime: 5000,
+    })
+      .createLine({
+        text: `Error: ${error.message}`,
+        type: "error",
+        progress: 100,
+      })
+      .show();
+  }
+}
+
+/**
+ * Reset the Wallabag sync status by setting the last sync timestamp to 0
+ * @param window The preferences window
+ */
+function resetWallabagSyncStatus(window: Window) {
+  try {
+    Zotero.debug("ZotBag: Resetting sync status");
+
+    // Reset the last sync timestamp to 0
+    setPref("wallabag.sync.lastTimestamp", 0);
+
+    // Show a success notification
+    new ztoolkit.ProgressWindow("Wallabag Sync", {
+      closeOnClick: true,
+      closeTime: 3000
+    })
+      .createLine({
+        text: "Sync status has been reset. Next sync will import all entries.",
+        type: "success",
+        progress: 100
+      })
+      .show();
+
+  } catch (error: any) {
+    Zotero.debug(`ZotBag: Error resetting sync status: ${error.message}`);
     new ztoolkit.ProgressWindow("Wallabag Sync", {
       closeOnClick: true,
       closeTime: 5000,

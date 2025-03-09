@@ -87,9 +87,13 @@
         data-l10n-id="pref-wallabag-sync-downloadPdf" />
     </hbox>
 
-    <!-- Manual Sync Button -->
+    <!-- Manual Sync and Reset Buttons -->
     <hbox>
       <spacer flex="1" />
+      <button id="zotero-prefpane-__addonRef__-wallabag-sync-reset" data-l10n-id="pref-wallabag-sync-reset"
+        oncommand="Zotero.__addonInstance__.hooks.onPrefsEvent('wallabag-sync-reset', { window });">
+        Reset Sync Status
+      </button>
       <button id="zotero-prefpane-__addonRef__-wallabag-sync-now" data-l10n-id="pref-wallabag-sync-now"
         oncommand="Zotero.__addonInstance__.hooks.onPrefsEvent('wallabag-sync-now', { window });">
         Sync Now

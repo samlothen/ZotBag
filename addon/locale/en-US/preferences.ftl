@@ -20,6 +20,7 @@ pref-wallabag-sync-interval = Sync Interval (minutes):
 pref-wallabag-sync-downloadPdf =
     .label = Download and attach PDF when syncing
 pref-wallabag-sync-now = Sync Now
+pref-wallabag-sync-reset = Reset Sync Status
 
 # Wallabag Import
 pref-wallabag-import-title = Import from Wallabag

@@ -10,9 +10,9 @@
 // - set it within a user.js file in your profile.
 
 user_pref("app.update.enabled", false);
-user_pref("app.update.lastUpdateTime.addon-background-update-timer", 1741374970);
-user_pref("app.update.lastUpdateTime.background-update-timer", 1741441203);
-user_pref("app.update.lastUpdateTime.xpi-signature-verification", 1741374970);
+user_pref("app.update.lastUpdateTime.addon-background-update-timer", 1741461370);
+user_pref("app.update.lastUpdateTime.background-update-timer", 1741484403);
+user_pref("app.update.lastUpdateTime.xpi-signature-verification", 1741461370);
 user_pref("browser.dom.window.dump.enabled", true);
 user_pref("browser.reader.detectedFirstArticle", true);
 user_pref("browser.safebrowsing.provider.0.gethashURL", "http://localhost/safebrowsing-dummy/gethash");
@@ -62,4 +62,5 @@ user_pref("storage.vacuum.last.index", 0);
 user_pref("storage.vacuum.last.places.sqlite", 1741376309);
 user_pref("toolkit.startup.last_success", 1741374940);
 user_pref("toolkit.startup.max_resumed_crashes", -1);
+user_pref("toolkit.startup.recent_crashes", 2);
 user_pref("urlclassifier.updateinterval", 172800);

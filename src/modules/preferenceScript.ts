@@ -174,4 +174,15 @@ function bindPrefEvents() {
       // Trigger manual sync
       addon.hooks.onPrefsEvent("wallabag-sync-now", { window: addon.data.prefs!.window });
     });
+
+  // Reset sync status button
+  addon.data
+    .prefs!.window.document.querySelector(
+      `#zotero-prefpane-${config.addonRef}-wallabag-sync-reset`,
+    )
+    ?.addEventListener("command", (e) => {
+      ztoolkit.log("Wallabag reset sync status button clicked", e);
+      // Trigger sync status reset
+      addon.hooks.onPrefsEvent("wallabag-sync-reset", { window: addon.data.prefs!.window });
+    });
 }

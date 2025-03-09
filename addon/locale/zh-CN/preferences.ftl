@@ -20,6 +20,7 @@ pref-wallabag-sync-interval = 同步间隔（分钟）:
 pref-wallabag-sync-downloadPdf =
     .label = 同步时下载并附加 PDF
 pref-wallabag-sync-now = 立即同步
+pref-wallabag-sync-reset = 重置同步状态
 
 # Wallabag Import
 pref-wallabag-import-title = 从 Wallabag 导入
