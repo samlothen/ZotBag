@@ -201,17 +201,19 @@ async function syncWallabagNow(window: Window) {
 
     // Check if a sync is already in progress
     if (wallabagSync.isSyncInProgress()) {
-      Zotero.debug("ZotBag: Sync already in progress, not starting another one");
+      Zotero.debug(
+        "ZotBag: Sync already in progress, not starting another one",
+      );
 
       // Show a notification to the user
       new ztoolkit.ProgressWindow("Wallabag Sync", {
         closeOnClick: true,
-        closeTime: 3000
+        closeTime: 3000,
       })
         .createLine({
           text: "A sync is already in progress",
           type: "default",
-          progress: 100
+          progress: 100,
         })
         .show();
 
@@ -249,15 +251,14 @@ function resetWallabagSyncStatus(window: Window) {
     // Show a success notification
     new ztoolkit.ProgressWindow("Wallabag Sync", {
       closeOnClick: true,
-      closeTime: 3000
+      closeTime: 3000,
     })
       .createLine({
         text: "Sync status has been reset. Next sync will import all entries.",
         type: "success",
-        progress: 100
+        progress: 100,
       })
       .show();
-
   } catch (error: any) {
     Zotero.debug(`ZotBag: Error resetting sync status: ${error.message}`);
     new ztoolkit.ProgressWindow("Wallabag Sync", {
@@ -300,10 +301,13 @@ function restartWallabagSync() {
 async function testWallabagConnection(window: Window) {
   try {
     // Show a loading message
-    const progressWindow = new ztoolkit.ProgressWindow("Wallabag Connection Test", {
-      closeOnClick: false,
-      closeTime: -1,
-    })
+    const progressWindow = new ztoolkit.ProgressWindow(
+      "Wallabag Connection Test",
+      {
+        closeOnClick: false,
+        closeTime: -1,
+      },
+    )
       .createLine({
         text: "Testing connection to Wallabag server...",
         type: "default",
@@ -355,7 +359,7 @@ async function importWallabagEntry(window: Window) {
   try {
     // Get the entry ID from the input field
     const entryIdInput = window.document.getElementById(
-      `zotero-prefpane-${addon.data.config.addonRef}-wallabag-entryId`
+      `zotero-prefpane-${addon.data.config.addonRef}-wallabag-entryId`,
     ) as HTMLInputElement;
 
     const entryId = parseInt(entryIdInput.value.trim());
@@ -365,7 +369,8 @@ async function importWallabagEntry(window: Window) {
     }
 
     // Check if any format is selected for download
-    const anyFormatSelected = getPref("wallabag.formats.xml") ||
+    const anyFormatSelected =
+      getPref("wallabag.formats.xml") ||
       getPref("wallabag.formats.json") ||
       getPref("wallabag.formats.txt") ||
       getPref("wallabag.formats.csv") ||
@@ -374,7 +379,7 @@ async function importWallabagEntry(window: Window) {
 
     // For backward compatibility, also check the legacy PDF checkbox
     const downloadPdfCheckbox = window.document.getElementById(
-      `zotero-prefpane-${addon.data.config.addonRef}-wallabag-downloadPdf`
+      `zotero-prefpane-${addon.data.config.addonRef}-wallabag-downloadPdf`,
     ) as HTMLInputElement;
 
     const downloadPdf = downloadPdfCheckbox?.checked || false;
@@ -385,7 +390,7 @@ async function importWallabagEntry(window: Window) {
       closeTime: -1,
     })
       .createLine({
-        text: `Importing entry ${entryId} from Wallabag...${(downloadPdf || anyFormatSelected) ? " (with attachments)" : ""}`,
+        text: `Importing entry ${entryId} from Wallabag...${downloadPdf || anyFormatSelected ? " (with attachments)" : ""}`,
         type: "default",
         progress: 50,
       })

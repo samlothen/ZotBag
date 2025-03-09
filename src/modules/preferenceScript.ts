@@ -160,7 +160,7 @@ function bindPrefEvents() {
     "wallabag-formats-txt",
     "wallabag-formats-csv",
     "wallabag-formats-pdf",
-    "wallabag-formats-epub"
+    "wallabag-formats-epub",
   ];
 
   for (const formatId of formatIds) {
@@ -203,7 +203,9 @@ function bindPrefEvents() {
     ?.addEventListener("command", (e) => {
       ztoolkit.log("Wallabag sync now button clicked", e);
       // Trigger manual sync
-      addon.hooks.onPrefsEvent("wallabag-sync-now", { window: addon.data.prefs!.window });
+      addon.hooks.onPrefsEvent("wallabag-sync-now", {
+        window: addon.data.prefs!.window,
+      });
     });
 
   // Reset sync status button
@@ -214,6 +216,8 @@ function bindPrefEvents() {
     ?.addEventListener("command", (e) => {
       ztoolkit.log("Wallabag reset sync status button clicked", e);
       // Trigger sync status reset
-      addon.hooks.onPrefsEvent("wallabag-sync-reset", { window: addon.data.prefs!.window });
+      addon.hooks.onPrefsEvent("wallabag-sync-reset", {
+        window: addon.data.prefs!.window,
+      });
     });
 }

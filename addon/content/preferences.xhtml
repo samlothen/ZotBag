@@ -1,11 +1,17 @@
 <linkset>
   <html:link rel="localization" href="__addonRef__-preferences.ftl" />
 </linkset>
-<groupbox onload="Zotero.__addonInstance__.hooks.onPrefsEvent('load', { window });">
+<groupbox
+  onload="Zotero.__addonInstance__.hooks.onPrefsEvent('load', { window });"
+>
   <label>
     <html:h2 data-l10n-id="pref-title"></html:h2>
   </label>
-  <checkbox id="zotero-prefpane-__addonRef__-enable" preference="enable" data-l10n-id="pref-enable" />
+  <checkbox
+    id="zotero-prefpane-__addonRef__-enable"
+    preference="enable"
+    data-l10n-id="pref-enable"
+  />
 
   <!-- Wallabag Settings Section -->
   <groupbox>
@@ -15,49 +21,94 @@
 
     <!-- Server URL -->
     <hbox align="center">
-      <html:label for="zotero-prefpane-__addonRef__-wallabag-serverUrl" data-l10n-id="pref-wallabag-serverUrl"
-        width="100">Server URL:</html:label>
-      <html:input type="text" id="zotero-prefpane-__addonRef__-wallabag-serverUrl" preference="wallabag.serverUrl"
-        style="width: 300px;"></html:input>
+      <html:label
+        for="zotero-prefpane-__addonRef__-wallabag-serverUrl"
+        data-l10n-id="pref-wallabag-serverUrl"
+        width="100"
+        >Server URL:</html:label
+      >
+      <html:input
+        type="text"
+        id="zotero-prefpane-__addonRef__-wallabag-serverUrl"
+        preference="wallabag.serverUrl"
+        style="width: 300px"
+      ></html:input>
     </hbox>
 
     <!-- Client ID -->
     <hbox align="center">
-      <html:label for="zotero-prefpane-__addonRef__-wallabag-clientId" data-l10n-id="pref-wallabag-clientId"
-        width="100">Client ID:</html:label>
-      <html:input type="text" id="zotero-prefpane-__addonRef__-wallabag-clientId" preference="wallabag.clientId"
-        style="width: 300px;"></html:input>
+      <html:label
+        for="zotero-prefpane-__addonRef__-wallabag-clientId"
+        data-l10n-id="pref-wallabag-clientId"
+        width="100"
+        >Client ID:</html:label
+      >
+      <html:input
+        type="text"
+        id="zotero-prefpane-__addonRef__-wallabag-clientId"
+        preference="wallabag.clientId"
+        style="width: 300px"
+      ></html:input>
     </hbox>
 
     <!-- Client Secret -->
     <hbox align="center">
-      <html:label for="zotero-prefpane-__addonRef__-wallabag-clientSecret" data-l10n-id="pref-wallabag-clientSecret"
-        width="100">Client Secret:</html:label>
-      <html:input type="text" id="zotero-prefpane-__addonRef__-wallabag-clientSecret" preference="wallabag.clientSecret"
-        style="width: 300px;"></html:input>
+      <html:label
+        for="zotero-prefpane-__addonRef__-wallabag-clientSecret"
+        data-l10n-id="pref-wallabag-clientSecret"
+        width="100"
+        >Client Secret:</html:label
+      >
+      <html:input
+        type="text"
+        id="zotero-prefpane-__addonRef__-wallabag-clientSecret"
+        preference="wallabag.clientSecret"
+        style="width: 300px"
+      ></html:input>
     </hbox>
 
     <!-- Username -->
     <hbox align="center">
-      <html:label for="zotero-prefpane-__addonRef__-wallabag-username" data-l10n-id="pref-wallabag-username"
-        width="100">Username:</html:label>
-      <html:input type="text" id="zotero-prefpane-__addonRef__-wallabag-username" preference="wallabag.username"
-        style="width: 300px;"></html:input>
+      <html:label
+        for="zotero-prefpane-__addonRef__-wallabag-username"
+        data-l10n-id="pref-wallabag-username"
+        width="100"
+        >Username:</html:label
+      >
+      <html:input
+        type="text"
+        id="zotero-prefpane-__addonRef__-wallabag-username"
+        preference="wallabag.username"
+        style="width: 300px"
+      ></html:input>
     </hbox>
 
     <!-- Password -->
     <hbox align="center">
-      <html:label for="zotero-prefpane-__addonRef__-wallabag-password" data-l10n-id="pref-wallabag-password"
-        width="100">Password:</html:label>
-      <html:input type="password" id="zotero-prefpane-__addonRef__-wallabag-password" preference="wallabag.password"
-        style="width: 300px;"></html:input>
+      <html:label
+        for="zotero-prefpane-__addonRef__-wallabag-password"
+        data-l10n-id="pref-wallabag-password"
+        width="100"
+        >Password:</html:label
+      >
+      <html:input
+        type="password"
+        id="zotero-prefpane-__addonRef__-wallabag-password"
+        preference="wallabag.password"
+        style="width: 300px"
+      ></html:input>
     </hbox>
 
     <!-- Test Connection Button -->
     <hbox>
       <spacer flex="1" />
-      <button id="zotero-prefpane-__addonRef__-wallabag-test" data-l10n-id="pref-wallabag-test"
-        oncommand="Zotero.__addonInstance__.hooks.onPrefsEvent('wallabag-test', { window });">Test Connection</button>
+      <button
+        id="zotero-prefpane-__addonRef__-wallabag-test"
+        data-l10n-id="pref-wallabag-test"
+        oncommand="Zotero.__addonInstance__.hooks.onPrefsEvent('wallabag-test', { window });"
+      >
+        Test Connection
+      </button>
     </hbox>
   </groupbox>
 
@@ -69,72 +120,116 @@
 
     <!-- Enable Sync -->
     <hbox align="center">
-      <checkbox id="zotero-prefpane-__addonRef__-wallabag-sync-enabled" preference="wallabag.sync.enabled"
-        data-l10n-id="pref-wallabag-sync-enabled" />
+      <checkbox
+        id="zotero-prefpane-__addonRef__-wallabag-sync-enabled"
+        preference="wallabag.sync.enabled"
+        data-l10n-id="pref-wallabag-sync-enabled"
+      />
     </hbox>
 
     <!-- Sync Interval -->
     <hbox align="center">
-      <html:label for="zotero-prefpane-__addonRef__-wallabag-sync-interval" data-l10n-id="pref-wallabag-sync-interval"
-        width="100">Sync Interval (minutes):</html:label>
-      <html:input type="number" id="zotero-prefpane-__addonRef__-wallabag-sync-interval"
-        preference="wallabag.sync.interval" style="width: 100px;" min="5" max="1440"></html:input>
+      <html:label
+        for="zotero-prefpane-__addonRef__-wallabag-sync-interval"
+        data-l10n-id="pref-wallabag-sync-interval"
+        width="100"
+        >Sync Interval (minutes):</html:label
+      >
+      <html:input
+        type="number"
+        id="zotero-prefpane-__addonRef__-wallabag-sync-interval"
+        preference="wallabag.sync.interval"
+        style="width: 100px"
+        min="5"
+        max="1440"
+      ></html:input>
     </hbox>
 
     <!-- Format selection -->
     <groupbox>
       <label>
-        <html:h4 data-l10n-id="pref-wallabag-formats-title">Download Formats</html:h4>
+        <html:h4 data-l10n-id="pref-wallabag-formats-title"
+          >Download Formats</html:h4
+        >
       </label>
-      <description data-l10n-id="pref-wallabag-formats-description">Select which formats to download and attach when
-        syncing:</description>
+      <description data-l10n-id="pref-wallabag-formats-description"
+        >Select which formats to download and attach when syncing:</description
+      >
 
       <hbox align="center">
-        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-xml" preference="wallabag.formats.xml"
-          data-l10n-id="pref-wallabag-formats-xml" />
+        <checkbox
+          id="zotero-prefpane-__addonRef__-wallabag-formats-xml"
+          preference="wallabag.formats.xml"
+          data-l10n-id="pref-wallabag-formats-xml"
+        />
       </hbox>
 
       <hbox align="center">
-        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-json" preference="wallabag.formats.json"
-          data-l10n-id="pref-wallabag-formats-json" />
+        <checkbox
+          id="zotero-prefpane-__addonRef__-wallabag-formats-json"
+          preference="wallabag.formats.json"
+          data-l10n-id="pref-wallabag-formats-json"
+        />
       </hbox>
 
       <hbox align="center">
-        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-txt" preference="wallabag.formats.txt"
-          data-l10n-id="pref-wallabag-formats-txt" />
+        <checkbox
+          id="zotero-prefpane-__addonRef__-wallabag-formats-txt"
+          preference="wallabag.formats.txt"
+          data-l10n-id="pref-wallabag-formats-txt"
+        />
       </hbox>
 
       <hbox align="center">
-        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-csv" preference="wallabag.formats.csv"
-          data-l10n-id="pref-wallabag-formats-csv" />
+        <checkbox
+          id="zotero-prefpane-__addonRef__-wallabag-formats-csv"
+          preference="wallabag.formats.csv"
+          data-l10n-id="pref-wallabag-formats-csv"
+        />
       </hbox>
 
       <hbox align="center">
-        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-pdf" preference="wallabag.formats.pdf"
-          data-l10n-id="pref-wallabag-formats-pdf" />
+        <checkbox
+          id="zotero-prefpane-__addonRef__-wallabag-formats-pdf"
+          preference="wallabag.formats.pdf"
+          data-l10n-id="pref-wallabag-formats-pdf"
+        />
       </hbox>
 
       <hbox align="center">
-        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-epub" preference="wallabag.formats.epub"
-          data-l10n-id="pref-wallabag-formats-epub" />
+        <checkbox
+          id="zotero-prefpane-__addonRef__-wallabag-formats-epub"
+          preference="wallabag.formats.epub"
+          data-l10n-id="pref-wallabag-formats-epub"
+        />
       </hbox>
     </groupbox>
 
     <!-- Legacy PDF option (kept for backward compatibility) -->
     <hbox align="center">
-      <checkbox id="zotero-prefpane-__addonRef__-wallabag-sync-downloadPdf" preference="wallabag.sync.downloadPdf"
-        data-l10n-id="pref-wallabag-sync-downloadPdf" hidden="true" />
+      <checkbox
+        id="zotero-prefpane-__addonRef__-wallabag-sync-downloadPdf"
+        preference="wallabag.sync.downloadPdf"
+        data-l10n-id="pref-wallabag-sync-downloadPdf"
+        hidden="true"
+      />
     </hbox>
 
     <!-- Manual Sync and Reset Buttons -->
     <hbox>
       <spacer flex="1" />
-      <button id="zotero-prefpane-__addonRef__-wallabag-sync-reset" data-l10n-id="pref-wallabag-sync-reset"
-        oncommand="Zotero.__addonInstance__.hooks.onPrefsEvent('wallabag-sync-reset', { window });">
+      <button
+        id="zotero-prefpane-__addonRef__-wallabag-sync-reset"
+        data-l10n-id="pref-wallabag-sync-reset"
+        oncommand="Zotero.__addonInstance__.hooks.onPrefsEvent('wallabag-sync-reset', { window });"
+      >
         Reset Sync Status
       </button>
-      <button id="zotero-prefpane-__addonRef__-wallabag-sync-now" data-l10n-id="pref-wallabag-sync-now"
-        oncommand="Zotero.__addonInstance__.hooks.onPrefsEvent('wallabag-sync-now', { window });">
+      <button
+        id="zotero-prefpane-__addonRef__-wallabag-sync-now"
+        data-l10n-id="pref-wallabag-sync-now"
+        oncommand="Zotero.__addonInstance__.hooks.onPrefsEvent('wallabag-sync-now', { window });"
+      >
         Sync Now
       </button>
     </hbox>
@@ -143,15 +238,29 @@
   <!-- Wallabag Import Section -->
   <groupbox>
     <label>
-      <html:h3 data-l10n-id="pref-wallabag-import-title">Import from Wallabag</html:h3>
+      <html:h3 data-l10n-id="pref-wallabag-import-title"
+        >Import from Wallabag</html:h3
+      >
     </label>
 
     <hbox align="center">
-      <html:label for="zotero-prefpane-__addonRef__-wallabag-entryId" data-l10n-id="pref-wallabag-entryId" width="100">
-        Entry ID:</html:label>
-      <html:input type="text" id="zotero-prefpane-__addonRef__-wallabag-entryId" style="width: 100px;"></html:input>
-      <button id="zotero-prefpane-__addonRef__-wallabag-import" data-l10n-id="pref-wallabag-import"
-        oncommand="Zotero.__addonInstance__.hooks.onPrefsEvent('wallabag-import', { window });">
+      <html:label
+        for="zotero-prefpane-__addonRef__-wallabag-entryId"
+        data-l10n-id="pref-wallabag-entryId"
+        width="100"
+      >
+        Entry ID:</html:label
+      >
+      <html:input
+        type="text"
+        id="zotero-prefpane-__addonRef__-wallabag-entryId"
+        style="width: 100px"
+      ></html:input>
+      <button
+        id="zotero-prefpane-__addonRef__-wallabag-import"
+        data-l10n-id="pref-wallabag-import"
+        oncommand="Zotero.__addonInstance__.hooks.onPrefsEvent('wallabag-import', { window });"
+      >
         Import Entry
       </button>
     </hbox>
@@ -159,51 +268,78 @@
     <!-- Format selection for import -->
     <groupbox>
       <label>
-        <html:h4 data-l10n-id="pref-wallabag-formats-title">Download Formats</html:h4>
+        <html:h4 data-l10n-id="pref-wallabag-formats-title"
+          >Download Formats</html:h4
+        >
       </label>
-      <description data-l10n-id="pref-wallabag-import-formats-description">Select which formats to download and attach
-        when importing:</description>
+      <description data-l10n-id="pref-wallabag-import-formats-description"
+        >Select which formats to download and attach when
+        importing:</description
+      >
 
       <hbox align="center">
-        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-xml" preference="wallabag.formats.xml"
-          data-l10n-id="pref-wallabag-formats-xml" />
+        <checkbox
+          id="zotero-prefpane-__addonRef__-wallabag-formats-xml"
+          preference="wallabag.formats.xml"
+          data-l10n-id="pref-wallabag-formats-xml"
+        />
       </hbox>
 
       <hbox align="center">
-        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-json" preference="wallabag.formats.json"
-          data-l10n-id="pref-wallabag-formats-json" />
+        <checkbox
+          id="zotero-prefpane-__addonRef__-wallabag-formats-json"
+          preference="wallabag.formats.json"
+          data-l10n-id="pref-wallabag-formats-json"
+        />
       </hbox>
 
       <hbox align="center">
-        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-txt" preference="wallabag.formats.txt"
-          data-l10n-id="pref-wallabag-formats-txt" />
+        <checkbox
+          id="zotero-prefpane-__addonRef__-wallabag-formats-txt"
+          preference="wallabag.formats.txt"
+          data-l10n-id="pref-wallabag-formats-txt"
+        />
       </hbox>
 
       <hbox align="center">
-        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-csv" preference="wallabag.formats.csv"
-          data-l10n-id="pref-wallabag-formats-csv" />
+        <checkbox
+          id="zotero-prefpane-__addonRef__-wallabag-formats-csv"
+          preference="wallabag.formats.csv"
+          data-l10n-id="pref-wallabag-formats-csv"
+        />
       </hbox>
 
       <hbox align="center">
-        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-pdf" preference="wallabag.formats.pdf"
-          data-l10n-id="pref-wallabag-formats-pdf" />
+        <checkbox
+          id="zotero-prefpane-__addonRef__-wallabag-formats-pdf"
+          preference="wallabag.formats.pdf"
+          data-l10n-id="pref-wallabag-formats-pdf"
+        />
       </hbox>
 
       <hbox align="center">
-        <checkbox id="zotero-prefpane-__addonRef__-wallabag-formats-epub" preference="wallabag.formats.epub"
-          data-l10n-id="pref-wallabag-formats-epub" />
+        <checkbox
+          id="zotero-prefpane-__addonRef__-wallabag-formats-epub"
+          preference="wallabag.formats.epub"
+          data-l10n-id="pref-wallabag-formats-epub"
+        />
       </hbox>
     </groupbox>
 
     <!-- Legacy PDF download option (kept for backward compatibility) -->
     <hbox align="center">
       <spacer width="100" />
-      <checkbox id="zotero-prefpane-__addonRef__-wallabag-downloadPdf" data-l10n-id="pref-wallabag-downloadPdf"
-        hidden="true" />
+      <checkbox
+        id="zotero-prefpane-__addonRef__-wallabag-downloadPdf"
+        data-l10n-id="pref-wallabag-downloadPdf"
+        hidden="true"
+      />
     </hbox>
   </groupbox>
 </groupbox>
 <vbox>
-  <html:label data-l10n-id="pref-help"
-    data-l10n-args='{"time": "__buildTime__","name": "__addonName__","version":"__buildVersion__"}'></html:label>
+  <html:label
+    data-l10n-id="pref-help"
+    data-l10n-args='{"time": "__buildTime__","name": "__addonName__","version":"__buildVersion__"}'
+  ></html:label>
 </vbox>
