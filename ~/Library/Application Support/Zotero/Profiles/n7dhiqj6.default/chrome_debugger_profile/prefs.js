@@ -10,9 +10,9 @@
 // - set it within a user.js file in your profile.
 
 user_pref("app.update.enabled", false);
-user_pref("app.update.lastUpdateTime.addon-background-update-timer", 1741461370);
+user_pref("app.update.lastUpdateTime.addon-background-update-timer", 1741547770);
 user_pref("app.update.lastUpdateTime.background-update-timer", 1741546623);
-user_pref("app.update.lastUpdateTime.xpi-signature-verification", 1741461370);
+user_pref("app.update.lastUpdateTime.xpi-signature-verification", 1741547770);
 user_pref("browser.dom.window.dump.enabled", true);
 user_pref("browser.reader.detectedFirstArticle", true);
 user_pref("browser.safebrowsing.provider.0.gethashURL", "http://localhost/safebrowsing-dummy/gethash");
