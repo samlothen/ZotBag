@@ -11,3 +11,6 @@ yarn.lock
 .scaffold
 build
 logs
+
+# Zotero profile data
+~/Library/Application Support/Zotero/
