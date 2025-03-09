@@ -41,7 +41,7 @@ user_pref("extensions.webextensions.uuids", "{\"zotbag@nodomain.local\":\"a8659d
 user_pref("extensions.zotero.dataDir", "/Users/sam/Zotero");
 user_pref("extensions.zotero.firstRun.skipFirefoxProfileAccessCheck", true);
 user_pref("extensions.zotero.firstRun2", false);
-user_pref("extensions.zotero.lastSelectedPrefPane", "plugin-pane-SJNOCdZT-zotbag@nodomain.local");
+user_pref("extensions.zotero.lastSelectedPrefPane", "plugin-pane-rXCsoIr3-zotbag@nodomain.local");
 user_pref("extensions.zotero.lastViewedFolder", "C17");
 user_pref("extensions.zotero.panes.abstract.open", true);
 user_pref("extensions.zotero.panes.attachment-annotations.open", true);

@@ -357,7 +357,7 @@ export class PromptExampleFactory {
     ztoolkit.Prompt.register([
       {
         name: "Normal Command Test",
-        label: "Plugin Template",
+        label: "ZotBag",
         callback(prompt) {
           ztoolkit.getGlobal("alert")("Command triggered!");
         },
@@ -570,7 +570,7 @@ export class PromptExampleFactory {
     ztoolkit.Prompt.register([
       {
         name: "Conditional Command Test",
-        label: "Plugin Template",
+        label: "ZotBag",
         // The when function is executed when Prompt UI is woken up by `Shift + P`, and this command does not display when false is returned.
         when: () => {
           const items = ztoolkit.getGlobal("ZoteroPane").getSelectedItems();
@@ -826,11 +826,11 @@ export class HelperExampleFactory {
   static clipboardExample() {
     new ztoolkit.Clipboard()
       .addText(
-        "![Plugin Template](https://github.com/windingwind/zotero-plugin-template)",
+        "![ZotBag](https://github.com/windingwind/zotero-plugin-template)",
         "text/unicode",
       )
       .addText(
-        '<a href="https://github.com/windingwind/zotero-plugin-template">Plugin Template</a>',
+        '<a href="https://github.com/windingwind/zotero-plugin-template">ZotBag</a>',
         "text/html",
       )
       .copy();
